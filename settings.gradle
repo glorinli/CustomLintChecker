@@ -1,0 +1,3 @@
+include ':checker'
+include ':app'
+rootProject.name = "CustomLintChecker"
