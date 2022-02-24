@@ -1,0 +1,46 @@
+apply plugin: 'maven-publish'
+
+group = GROUP
+version = VERSION
+def repositoryUrl = MAVEN_REPOSITORY_URL
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = GROUP
+                artifactId = ARTIFACT_ID
+                version = VERSION
+            }
+        }
+
+        repositories {
+            maven {
+                allowInsecureProtocol true
+                url = repositoryUrl
+
+                credentials {
+                    username MAVEN_USER
+                    password MAVEN_PWD
+                }
+            }
+        }
+    }
+
+    publish {
+        doLast {
+            println "*********************************************************************************"
+            println "Lint Checker Uploaded"
+            println "Group           : " + GROUP
+            println "ArtifactId      : " + ARTIFACT_ID
+            println "Version         : " + version
+            println "Repository      : " + repositoryUrl
+            println "*********************************************************************************"
+        }
+    }
+}
